@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4fbfa" />
+    <title>MonitoringBuoy — Memahami Laut, Menjaga Masa Depan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Monitoring<span>Buoy</span><i>.</i></a>
+      <button class="menu-toggle" aria-label="Buka navigasi">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav">
+        <a class="active" href="index.html">Home</a>
+        <a href="mission.html">Our Mission</a>
+
+        <div class="nav-dropdown">
+          <button
+            class="nav-dropdown-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="projectDropdown"
+          >
+            Our Project <span class="dropdown-chevron">⌄</span>
+          </button>
+
+          <div class="nav-dropdown-menu" id="projectDropdown">
+            <a href="project.html?buoy=cilincing">Buoy Cilincing</a>
+            <a href="project.html?buoy=ancol">Buoy Ancol</a>
+          </div>
+        </div>
+
+        <a href="data.html">Data</a>
+      </nav>
+
+      <a class="nav-icon" href="data.html" aria-label="Lihat data"
+        ><span>⌁</span></a
+      >
+    </header>
+    <main>
+      <section class="hero">
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        >
+          <source src="img/header.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-shade"></div>
+        <div class="hero-panel">
+          <div class="hero-content">
+            <p class="eyebrow light">OCEAN OBSERVATION · TELUK JAKARTA</p>
+            <h1>
+              Understanding Our Ocean,<br /><span>Protecting Our Future.</span>
+            </h1>
+            <p class="hero-copy">
+              Sistem pemantauan kondisi perairan Teluk Jakarta melalui teknologi
+              buoy dan sensor lingkungan laut untuk mendukung pengamatan yang
+              berkelanjutan untuk mengukur tingkat hipoksia.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-orange" href="project.html"
+                >Discovered More <span>↗</span></a
+              ><a class="text-link light-link" href="#why"
+                >Mengapa Teluk Jakarta? ↓</a
+              >
+            </div>
+          </div>
+          <div class="hero-bottom">
+            <span
+              >MARINE INSTRUMENTATION TELEMETRY AND ROBOTICS CLUB, IPB
+              UNIVERSITY X BRIN</span
+            ><span>01 / 04</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-section" id="why">
+        <div class="section-kicker">A CLOSER LOOK AT THE OCEAN</div>
+        <div class="intro-grid">
+          <div>
+            <h2>
+              Ketika oksigen menurun, <span>kehidupan laut terancam.</span>
+            </h2>
+          </div>
+
+          <div class="intro-text">
+            <p>
+              Teluk Jakarta, khususnya kawasan pesisir Ancol dan Cilincing,
+              <strong>
+                menghadapi tekanan dari aktivitas manusia, sampah, dan masuknya
+                limbah ke perairan.
+              </strong>
+              Masukan nutrien berlebih dan penguraian bahan organik dapat
+              meningkatkan konsumsi oksigen di perairan dan berkontribusi
+              terhadap
+              <strong
+                >hipoksia, yaitu kondisi ketika kadar oksigen terlarut (DO)
+                berada pada tingkat yang sangat rendah.</strong
+              >
+              Kondisi ini dapat mengganggu keseimbangan ekosistem dan mengancam
+              kehidupan organisme laut.
+            </p>
+
+            <p>
+              Ketika kualitas perairan memburuk, dampaknya tidak berhenti di
+              bawah permukaan.
+              <strong>
+                Nelayan, masyarakat pesisir, dan aktivitas sehari-hari ikut
+                terdampak.
+              </strong>
+              Karena itu, pemantauan kualitas air secara konsisten diperlukan
+              untuk mendeteksi perubahan kadar oksigen terlarut, memahami
+              kondisi perairan, dan mendukung keputusan pemulihan lingkungan
+              berdasarkan data.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section issues-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">THE CHALLENGES</p>
+            <h2>Permasalahan yang perlu <span>kita perhatikan.</span></h2>
+          </div>
+        </div>
+        <div class="news-track-wrap">
+          <div class="news-track" id="newsTrack">
+            <a
+              class="news-card"
+              href="https://www.google.com/search?q=berita+pencemaran+Teluk+Jakarta+sampah+laut"
+              target="https://foto.kompas.com/photo/read/2018/03/15/15210981839f8/Lautan-Sampah-di-Teluk-Jakarta"
+              rel="noopener"
+              ><img
+                src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&w=900&q=80"
+                alt="Sampah plastik di laut"
+              />
+              <div class="news-overlay"></div>
+              <div class="news-content">
+                <span class="tag">01 / PENCEMARAN</span>
+                <h3>Sampah dan limbah perairan</h3>
+                <p>
+                  Sampah yang menumpuk dapat merusak habitat, membahayakan
+                  biota, dan menurunkan kualitas lingkungan pesisir.
+                </p>
+                <span class="card-arrow">Baca berita ↗</span>
+              </div></a
+            >
+            <a
+              class="news-card"
+              href="https://www.google.com/search?q=berita+penurunan+oksigen+terlarut+perairan+Teluk+Jakarta"
+              target="https://foto.kompas.com/photo/read/2018/03/15/15210981839f8/Lautan-Sampah-di-Teluk-Jakarta"
+              rel="noopener"
+              ><img src="img/berita 2.jpg" alt="Permukaan laut" />
+              <div class="news-overlay"></div>
+              <div class="news-content">
+                <span class="tag">02 / KUALITAS AIR</span>
+                <h3>Penurunan oksigen terlarut</h3>
+                <p>
+                  Kadar DO yang rendah dapat membuat organisme air kesulitan
+                  bernapas dan meningkatkan risiko hipoksia.
+                </p>
+                <span class="card-arrow">Baca berita ↗</span>
+              </div></a
+            >
+            <a
+              class="news-card"
+              href="https://www.google.com/search?q=berita+eutrofikasi+klorofil+Teluk+Jakarta"
+              target="https://news.detik.com/foto-news/d-3923545/before-after-lautan-sampah-teluk-jakarta-yang-sedang-dibersihkan?page=6"
+              rel="noopener"
+              ><img src="img/berita 3.jpg" alt="Gelombang laut" />
+              <div class="news-overlay"></div>
+              <div class="news-content">
+                <span class="tag">03 / KESEIMBANGAN EKOSISTEM</span>
+                <h3>Perubahan produktivitas perairan</h3>
+                <p>
+                  Perubahan klorofil-a dapat menjadi petunjuk perubahan
+                  fitoplankton, termasuk saat terjadi pengayaan nutrien.
+                </p>
+                <span class="card-arrow">Baca berita ↗</span>
+              </div></a
+            >
+            <a
+              class="news-card"
+              href="https://www.google.com/search?q=berita+perubahan+pH+air+laut+ekosistem"
+              target="https://megapolitan.kompas.com/read/2021/10/05/20463821/soal-teluk-jakarta-tercemar-parasetamol-dinas-lh-dki-masih-harus"
+              rel="noopener"
+              ><img src="img/berita 4.jpg" alt="Air laut jernih" />
+              <div class="news-overlay"></div>
+              <div class="news-content">
+                <span class="tag">04 / KIMIA PERAIRAN</span>
+                <h3>Perubahan kondisi kimia air</h3>
+                <p>
+                  Perubahan pH dapat memengaruhi proses biologis dan kenyamanan
+                  hidup berbagai organisme perairan.
+                </p>
+                <span class="card-arrow">Baca berita ↗</span>
+              </div></a
+            >
+            <a
+              class="news-card"
+              href="https://www.google.com/search?q=berita+dampak+pencemaran+laut+masyarakat+pesisir+Jakarta"
+              target="https://www.beritasatu.com/news/362036/teluk-jakarta-dinilai-lebih-butuh-rehabilitasi-dibanding-reklamasi"
+              rel="noopener"
+              ><img src="img/berita 5.jpg" alt="Kawasan pesisir" />
+              <div class="news-overlay"></div>
+              <div class="news-content">
+                <span class="tag">05 / MASYARAKAT PESISIR</span>
+                <h3>Ekosistem dan kehidupan warga</h3>
+                <p>
+                  Kondisi perairan berhubungan dengan sumber penghidupan,
+                  keamanan pangan, dan kegiatan masyarakat pesisir.
+                </p>
+                <span class="card-arrow">Baca berita ↗</span>
+              </div></a
+            >
+          </div>
+        </div>
+        <div class="track-note">
+          <span class="track-dot"></span> SLIDE KE SAMPING UNTUK MELIHAT LEBIH
+          BANYAK
+        </div>
+      </section>
+
+      <!-- ANIMATED OXYGEN BUBBLES -->
+      <div class="hypoxia-bubbles" aria-hidden="true">
+        <span class="bubble bubble-1"></span>
+        <span class="bubble bubble-2"></span>
+        <span class="bubble bubble-3"></span>
+        <span class="bubble bubble-4"></span>
+        <span class="bubble bubble-5"></span>
+        <span class="bubble bubble-6"></span>
+        <span class="bubble bubble-7"></span>
+        <span class="bubble bubble-8"></span>
+
+        <div class="water-label">
+          <span class="water-dot"></span>
+          HIPOKSIA
+        </div>
+      </div>
+
+      <section class="hypoxia-intro">
+        <!-- Isi section hipoksia kamu tetap di sini -->
+      </section>
+
+      <section class="hypoxia-intro">
+        <div class="hypoxia-intro-label">UNDERSTANDING HYPOXIA</div>
+
+        <div class="hypoxia-intro-content">
+          <h2>Ketika laut <span>kehilangan</span> oksigennya.</h2>
+
+          <p>
+            Hipoksia adalah kondisi ketika
+            <strong>kadar oksigen terlarut (Dissolved Oxygen atau DO)</strong>
+            di perairan <strong>terlalu rendah</strong> untuk mendukung
+            kehidupan organisme akuatik secara optimal. Di Teluk Jakarta,
+            kondisi ini berpotensi
+            <strong
+              >mengganggu ekosistem laut, menyebabkan stres hingga kematian
+              biota, serta menurunkan kualitas perairan.</strong
+            >
+            Masukan nutrien dan bahan organik dari aktivitas manusia dapat
+            memicu pertumbuhan alga berlebih, yang saat terurai akan mengonsumsi
+            oksigen dan meningkatkan risiko hipoksia.
+          </p>
+        </div>
+
+        <div class="hypoxia-intro-footer">
+          <span>Memahami masalah adalah langkah pertama.</span>
+          <span class="hypoxia-intro-arrow">↘</span>
+        </div>
+      </section>
+
+      <section class="section solutions-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">OUR SOLUTIONS</p>
+            <h2>What <span>We OFFER</span>?</h2>
+          </div>
+          <p>
+            Teknologi pemantauan yang membantu mengubah pengamatan laut menjadi
+            informasi yang dapat digunakan.
+          </p>
+        </div>
+        <div class="solution-showcase">
+          <div class="solution-main">
+            <img
+              src="img/real time home.jpg"
+              alt="Laut dan teknologi pemantauan"
+            />
+            <div class="solution-gradient"></div>
+            <div class="solution-copy">
+              <span class="mini-line"></span>
+              <p class="eyebrow orange">01</p>
+              <h3>Real-time<br />Monitoring</h3>
+              <p>
+                Buoy mengumpulkan data kondisi perairan secara berkala untuk
+                membantu melihat perubahan lingkungan. Perubahannya dapat
+                diakses oleh siapapun dan kapanpun.
+              </p>
+              <a class="text-link light-link" href="data.html"
+                >Explore monitoring data ↗</a
+              >
+            </div>
+          </div>
+          <a class="solution-side" href="mission.html"
+            ><img
+              src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=700&q=80"
+              alt="Ombak laut"
+            />
+            <div>
+              <span class="mini-line"></span>
+              <p class="eyebrow orange">02</p>
+              <h3>Water Quality<br />Analysis</h3>
+              <p>
+                Buoy dengan integrasi sensor membantu mengenali perubahan
+                kualitas air melalui parameter lingkungan yang terbaca. Data
+                dapat dianalisis lebih lanjut untuk mengenali pola lingkungan.
+              </p>
+              <b>↗</b>
+            </div></a
+          >
+          <a class="solution-side" href="data.html"
+            ><img
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=700&q=80"
+              alt="Visualisasi data"
+            />
+            <div>
+              <span class="mini-line"></span>
+              <p class="eyebrow orange">03</p>
+              <h3>Data<br />Visualization</h3>
+              <p>
+                Informasi disajikan dengan grafik dan tabel yang lebih mudah
+                dibaca masyarakat dengan visualisasi yang menarik melalui kanal
+                internet.
+              </p>
+              <b>↗</b>
+            </div></a
+          >
+        </div>
+        <div class="challenge-band">
+          <div>
+            <p class="eyebrow">BEHIND THE MONITORING</p>
+            <h3>Memantau laut bukan tanpa tantangan.</h3>
+          </div>
+          <p>
+            Lingkungan laut bersifat dinamis. Cuaca, gelombang, korosi,
+            ketersediaan daya, dan kondisi sensor dapat memengaruhi pengambilan
+            data. Karena itu, sistem perlu dirancang agar hemat energi, tahan
+            lingkungan, mudah dirawat, serta dilengkapi pemeriksaan kualitas
+            data. Hasil pemantauan menjadi dasar pendukung keputusan, bukan
+            pengganti survei dan analisis lanjutan.
+          </p>
+        </div>
+      </section>
+
+      <section class="section parameters-section">
+        <div class="parameter-intro">
+          <div class="parameter-heading">
+            <p class="eyebrow">WHAT WE MEASURE?</p>
+            <h2>
+              Mengenal parameter
+              <span>HIPOKSIA.</span>
+            </h2>
+          </div>
+
+          <p class="parameter-description">
+            Memahami kondisi oksigen dan dinamika biologis perairan melalui
+            parameter yang membantu membaca potensi hipoksia.
+          </p>
+        </div>
+
+        <div class="parameter-grid">
+          <article class="parameter-card">
+            <img
+              class="parameter-image"
+              src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1000&q=85"
+              alt="Permukaan laut dan gelombang"
+            />
+
+            <div class="parameter-content">
+              <span class="param-index">01 / DISSOLVED OXYGEN</span>
+              <h3>Dissolved Oxygen</h3>
+              <p>
+                Mengukur oksigen terlarut yang dibutuhkan organisme air untuk
+                bernapas dan membantu mendeteksi kondisi hipoksia.
+              </p>
+
+              <a class="parameter-link" href="data.html">
+                <span>Lihat Data</span><span>▶</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="parameter-card">
+            <img
+              class="parameter-image"
+              src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=1000&q=85"
+              alt="Ekosistem perairan laut"
+            />
+
+            <div class="parameter-content">
+              <span class="param-index">02 / CHLOROPHYLL</span>
+              <h3>Klorofil-a</h3>
+              <p>
+                Memberi gambaran keberadaan fitoplankton dan produktivitas
+                primer yang berkaitan dengan dinamika oksigen perairan.
+              </p>
+
+              <a class="parameter-link" href="data.html">
+                <span>Lihat Data</span><span>▶</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="parameter-card">
+            <img
+              class="parameter-image"
+              src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1000&q=85"
+              alt="Air laut dengan riak gelombang"
+            />
+
+            <div class="parameter-content">
+              <span class="param-index">03 / ACIDITY</span>
+              <h3>Lihat Data</h3>
+              <p>
+                Menunjukkan kondisi asam-basa air yang membantu menjelaskan
+                perubahan kimia dan proses biologis.
+              </p>
+
+              <a class="parameter-link" href="data.html">
+                <span>Lihat Data</span><span>▶</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <div class="footer-top">
+        <a class="brand footer-brand" href="index.html"
+          >Monitoring<span>Buoy</span><i>.</i></a
+        >
+        <p>Mengamati hari ini, menjaga laut untuk esok hari.</p>
+      </div>
+      <div class="footer-columns">
+        <div>
+          <h4>Hubungi kami</h4>
+          <a href="mailto:mitr-ipb@gmail.com">mitr-ipb@gmail.com</a>
+          <p>
+            MIT+R — Marine Instrumentation, Telemetry and Robotics<br />IPB
+            University, Bogor, Jawa Barat, Indonesia
+          </p>
+        </div>
+        <div>
+          <h4>Jelajahi</h4>
+          <a href="mission.html">Our Mission</a
+          ><a href="project.html">Our Project</a
+          ><a href="data.html">Monitoring Data</a>
+        </div>
+        <div>
+          <h4>Ikuti MIT+R IPB</h4>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener"
+            >Instagram ↗</a
+          ><a href="https://www.youtube.com/" target="_blank" rel="noopener"
+            >YouTube ↗</a
+          ><a href="https://www.linkedin.com/" target="_blank" rel="noopener"
+            >LinkedIn ↗</a
+          >
+          <p class="small-note">
+            Tautan sosial dapat diganti dengan akun resmi MIT+R.
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MonitoringBuoy · MIT+R IPB University</span
+        ><span>Built for healthier coastal waters.</span>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

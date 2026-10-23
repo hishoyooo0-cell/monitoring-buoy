@@ -1,0 +1,1636 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3fbfb" />
+    <title>Our Project | MonitoringBuoy</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      .hardware-panel[hidden] {
+        display: none !important;
+      }
+
+      /* SECTION */
+      .hardware-spec-section {
+        overflow: hidden;
+      }
+
+      .hardware-spec-section .section-heading {
+        align-items: end;
+        margin-bottom: 32px;
+      }
+
+      .hardware-spec-section .section-heading h2 {
+        max-width: 760px;
+      }
+
+      #hardware-intro {
+        max-width: 440px;
+        line-height: 1.8;
+      }
+
+      /* SUMMARY CARDS */
+      .hardware-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin: 0 0 30px;
+      }
+
+      .hardware-summary > div {
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 24px 26px;
+        border: 1px solid #d7e9e9;
+        border-radius: 20px;
+        background: #e6f5f3;
+        color: #52767a;
+        font-size: 0.9rem;
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .hardware-summary > div:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 26px rgba(18, 70, 75, 0.08);
+      }
+
+      .hardware-summary-number {
+        color: #009ca5;
+        font:
+          800 clamp(1.3rem, 2vw, 1.9rem) "Manrope",
+          sans-serif;
+        letter-spacing: -0.04em;
+      }
+
+      /* GRID KATEGORI */
+      .hardware-category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        align-items: stretch;
+      }
+
+      /* CARD */
+      .hardware-category {
+        position: relative;
+        min-width: 0;
+        padding: 28px 30px;
+        overflow: hidden;
+        border: 1px solid #d8e9e8;
+        border-radius: 24px;
+        background: #fbfefe;
+        box-shadow: 0 8px 30px rgba(18, 70, 75, 0.035);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          border-color 0.3s ease;
+      }
+
+      .hardware-category:hover {
+        transform: translateY(-5px);
+        border-color: #a7d9d8;
+        box-shadow: 0 18px 40px rgba(18, 70, 75, 0.09);
+      }
+
+      /* JUDUL CARD */
+      .hardware-category-title {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .hardware-category-title .param-icon {
+        display: grid;
+        place-items: center;
+        flex: 0 0 58px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #e0f7f5;
+        color: #009ba3;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .hardware-index {
+        display: block;
+        margin-bottom: 6px;
+        color: #009ca5;
+        font-size: 0.67rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+      }
+
+      .hardware-category-title h3 {
+        margin: 0;
+        color: #123f43;
+        font:
+          700 1.12rem "Manrope",
+          sans-serif;
+        line-height: 1.4;
+      }
+
+      /* DAFTAR KOMPONEN */
+      .hardware-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 18px;
+        padding: 19px 0;
+        border-top: 1px solid #e1eded;
+      }
+
+      .hardware-item > div {
+        min-width: 0;
+      }
+
+      .hardware-item h4 {
+        margin: 0 0 7px;
+        color: #123f43;
+        font-size: 0.96rem;
+        font-weight: 700;
+        line-height: 1.5;
+      }
+
+      .hardware-item p {
+        margin: 0;
+        color: #648087;
+        font-size: 0.86rem;
+        line-height: 1.8;
+      }
+
+      /* BADGE JUMLAH */
+      .hardware-item > b {
+        flex: 0 0 auto;
+        max-width: 145px;
+        padding: 7px 10px;
+        border: 1px solid #d7eeee;
+        border-radius: 10px;
+        background: #e8f7f6;
+        color: #008f98;
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1.5;
+        text-align: center;
+        white-space: normal;
+      }
+
+      /* CARD LEBAR UNTUK WINCH ANCOL */
+      .hardware-category-wide {
+        grid-column: 1 / -1;
+      }
+
+      .hardware-category-wide .hardware-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+
+      /* CATATAN */
+      .hardware-spec-section .small-note {
+        margin-top: 22px;
+        color: #789094;
+        font-size: 0.78rem;
+        line-height: 1.8;
+      }
+
+      /* GALERI SENSOR */
+      .sensor-photo-gallery {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 34px;
+      }
+
+      .sensor-photo-gallery article {
+        position: relative;
+        min-width: 0;
+        min-height: 250px;
+        overflow: hidden;
+        border-radius: 22px;
+        background: #dcebea;
+      }
+
+      .sensor-photo-gallery img {
+        display: block;
+        width: 100%;
+        height: 290px;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .sensor-photo-gallery article:hover img {
+        transform: scale(1.045);
+      }
+
+      .sensor-photo-gallery article > div {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 38px 24px 22px;
+        color: #fff;
+        background: linear-gradient(transparent, rgba(9, 39, 43, 0.85));
+      }
+
+      .sensor-photo-gallery article span {
+        display: block;
+        margin-bottom: 7px;
+        color: #a7f0eb;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+      }
+
+      .sensor-photo-gallery article h3 {
+        margin: 0;
+        font:
+          700 1.1rem "Manrope",
+          sans-serif;
+      }
+
+      /* TABLET */
+      @media (max-width: 900px) {
+        .hardware-category-grid {
+          gap: 16px;
+        }
+
+        .hardware-category {
+          padding: 24px 22px;
+        }
+
+        .hardware-item {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .hardware-item > b {
+          align-self: flex-start;
+        }
+
+        .hardware-category-wide .hardware-item {
+          display: flex;
+        }
+      }
+
+      /* HP */
+      @media (max-width: 600px) {
+        .hardware-spec-section .section-heading {
+          gap: 12px;
+        }
+
+        .hardware-summary {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .hardware-summary > div {
+          min-height: 95px;
+          padding: 20px 22px;
+        }
+
+        .hardware-category-grid,
+        .sensor-photo-gallery {
+          grid-template-columns: 1fr;
+        }
+
+        .hardware-category-wide {
+          grid-column: auto;
+        }
+
+        .hardware-category {
+          padding: 23px 20px;
+          border-radius: 20px;
+        }
+
+        .hardware-category-title {
+          gap: 13px;
+        }
+
+        .hardware-category-title .param-icon {
+          flex-basis: 50px;
+          width: 50px;
+          height: 50px;
+        }
+
+        .hardware-item {
+          padding: 17px 0;
+        }
+
+        .hardware-item p {
+          font-size: 0.84rem;
+        }
+
+        .sensor-photo-gallery img {
+          height: 240px;
+        }
+      }
+
+      /* =====================================
+   HARDWARE SPECIFICATIONS — WARM EDITORIAL
+===================================== */
+
+      .hardware-spec-section {
+        --spec-bg: #fbf1e3;
+        --spec-card: #e0dede;
+        --spec-ink: #21160f;
+        --spec-muted: #74685c;
+        --spec-accent: #d98b4e;
+        --spec-dark: #3b1b08;
+
+        background: var(--spec-bg);
+        color: var(--spec-ink);
+        padding-top: 90px;
+        padding-bottom: 100px;
+      }
+
+      .hardware-spec-section .section-heading {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: end;
+        gap: 40px;
+        margin-bottom: 38px;
+      }
+
+      .hardware-spec-section .eyebrow {
+        color: var(--spec-accent);
+        letter-spacing: 0.16em;
+      }
+
+      .hardware-spec-section .section-heading h2 {
+        color: var(--spec-ink);
+        font-size: clamp(2.2rem, 4.5vw, 4rem);
+        line-height: 1.08;
+        letter-spacing: -0.055em;
+        max-width: 760px;
+      }
+
+      .hardware-spec-section .section-heading h2 span {
+        color: var(--spec-accent);
+      }
+
+      .hardware-spec-section #hardware-intro {
+        max-width: 450px;
+        margin: 0 0 5px;
+        color: var(--spec-muted);
+        line-height: 1.8;
+      }
+
+      /* Ringkasan angka di atas spesifikasi */
+      .hardware-spec-section .hardware-summary {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin: 0 0 50px;
+      }
+
+      .hardware-spec-section .hardware-summary > div {
+        min-height: 120px;
+        justify-content: center;
+        padding: 24px 26px;
+        border: 0;
+        border-radius: 18px;
+        background: var(--spec-card);
+        color: var(--spec-ink);
+        font-size: 0.86rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .hardware-spec-section .hardware-summary-number {
+        color: var(--spec-ink);
+        font-size: clamp(1.4rem, 2.8vw, 2.4rem);
+        letter-spacing: -0.05em;
+      }
+
+      /* Kategori komponen */
+      .hardware-spec-section .hardware-category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        align-items: stretch;
+      }
+
+      .hardware-spec-section .hardware-category {
+        position: relative;
+        min-width: 0;
+        padding: 30px;
+        border: 0;
+        border-radius: 18px;
+        background: var(--spec-card);
+        box-shadow: none;
+        overflow: hidden;
+        transition:
+          transform 0.25s ease,
+          background 0.25s ease;
+      }
+
+      .hardware-spec-section .hardware-category:hover {
+        transform: translateY(-4px);
+        background: #e8e4df;
+      }
+
+      .hardware-spec-section .hardware-category-title {
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+
+      .hardware-spec-section .hardware-category-title .param-icon {
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: #f9efe3;
+        color: var(--spec-accent);
+        font-size: 1rem;
+      }
+
+      .hardware-spec-section .hardware-index {
+        color: var(--spec-accent);
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+      }
+
+      .hardware-spec-section .hardware-category-title h3 {
+        color: var(--spec-ink);
+        font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+        letter-spacing: -0.035em;
+      }
+
+      /* Isi spesifikasi */
+      .hardware-spec-section .hardware-item {
+        align-items: flex-start;
+        gap: 14px;
+        padding: 17px 0;
+        border-top: 1px solid rgba(55, 35, 19, 0.13);
+      }
+
+      .hardware-spec-section .hardware-item h4 {
+        color: var(--spec-ink);
+        font-size: 0.97rem;
+        line-height: 1.5;
+      }
+
+      .hardware-spec-section .hardware-item p {
+        color: var(--spec-muted);
+        font-size: 0.86rem;
+        line-height: 1.75;
+      }
+
+      .hardware-spec-section .hardware-item > b {
+        padding: 7px 10px;
+        border-radius: 8px;
+        background: #b5d6f1;
+        color: #562a0a;
+        font-size: 0.7rem;
+      }
+
+      /* Kartu winch melebar */
+      .hardware-spec-section .hardware-category-wide {
+        grid-column: 1 / -1;
+      }
+
+      .hardware-spec-section .hardware-category-wide .hardware-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      /* Catatan dan foto sensor */
+      .hardware-spec-section .small-note {
+        margin-top: 22px;
+        color: var(--spec-muted);
+        font-size: 0.8rem;
+        line-height: 1.7;
+      }
+
+      .hardware-spec-section .sensor-photo-gallery {
+        margin-top: 42px;
+        gap: 20px;
+      }
+
+      .hardware-spec-section .sensor-photo-gallery article {
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .hardware-spec-section .sensor-photo-gallery img {
+        display: block;
+        width: 100%;
+        height: 260px;
+        object-fit: cover;
+      }
+
+      .hardware-spec-section .sensor-photo-gallery article > div {
+        padding: 20px 22px;
+        background: var(--spec-card);
+      }
+
+      .hardware-spec-section .sensor-photo-gallery article span {
+        color: var(--spec-accent);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+      }
+
+      .hardware-spec-section .sensor-photo-gallery article h3 {
+        margin-top: 7px;
+        color: var(--spec-ink);
+      }
+
+      /* Responsif untuk tablet dan HP */
+      @media (max-width: 760px) {
+        .hardware-spec-section {
+          padding-top: 60px;
+          padding-bottom: 65px;
+        }
+
+        .hardware-spec-section .section-heading {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+
+        .hardware-spec-section .hardware-summary {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin-bottom: 28px;
+        }
+
+        .hardware-spec-section .hardware-summary > div {
+          min-height: 90px;
+        }
+
+        .hardware-spec-section .hardware-category-grid {
+          grid-template-columns: 1fr;
+          gap: 15px;
+        }
+
+        .hardware-spec-section .hardware-category,
+        .hardware-spec-section .hardware-category-wide {
+          grid-column: auto;
+          padding: 23px 20px;
+        }
+
+        .hardware-spec-section .hardware-item {
+          flex-direction: column;
+        }
+
+        .hardware-spec-section .hardware-item > b {
+          align-self: flex-start;
+        }
+
+        .hardware-spec-section .hardware-category-wide .hardware-item {
+          display: flex;
+        }
+
+        .hardware-spec-section .sensor-photo-gallery img {
+          height: 220px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <header class="site-header">
+      <a class="brand" href="index.html">
+        Monitoring<span>Buoy</span><i>.</i>
+      </a>
+
+      <button class="menu-toggle" aria-label="Buka navigasi">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="mission.html">Our Mission</a>
+
+        <div class="nav-dropdown">
+          <button
+            class="nav-dropdown-toggle active"
+            type="button"
+            aria-expanded="false"
+            aria-controls="projectDropdown"
+          >
+            Our Project <span class="dropdown-chevron">⏷</span>
+          </button>
+
+          <div class="nav-dropdown-menu" id="projectDropdown">
+            <a href="project.html?buoy=cilincing">Buoy Cilincing</a>
+            <a href="project.html?buoy=ancol">Buoy Ancol</a>
+          </div>
+        </div>
+
+        <a href="data.html">Data</a>
+      </nav>
+
+      <a class="nav-icon" href="data.html" aria-label="Lihat data">
+        <span>⌁</span>
+      </a>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="page-hero">
+        <div class="page-hero-image project-bg"></div>
+
+        <div class="page-hero-inner">
+          <p class="eyebrow light">OUR PROJECT · TWO MONITORING POINTS</p>
+
+          <h1>
+            Dua buoy.<br />
+            <span>Satu tujuan bersama.</span>
+          </h1>
+
+          <p>
+            Unit Ancol dan Cilincing dirancang untuk mengamati parameter
+            kualitas air sebagai dukungan bagi keberlanjutan ekosistem Teluk
+            Jakarta.
+          </p>
+        </div>
+      </section>
+
+      <!-- PILIH BUOY -->
+      <section class="section project-tabs-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MEET THE BUOYS</p>
+            <h2>Pilih titik <span>pemantauan.</span></h2>
+          </div>
+        </div>
+
+        <div class="buoy-tabs" role="tablist" aria-label="Pilih lokasi buoy">
+          <button
+            type="button"
+            class="buoy-tab active"
+            id="tab-cilincing"
+            data-buoy="cilincing"
+            role="tab"
+            aria-controls="panel-cilincing"
+            aria-selected="true"
+          >
+            Buoy Cilincing <span>𓆝 𓆟 𓆞 𓆝 𓆟</span>
+          </button>
+
+          <button
+            type="button"
+            class="buoy-tab"
+            id="tab-ancol"
+            data-buoy="ancol"
+            role="tab"
+            aria-controls="panel-ancol"
+            aria-selected="false"
+            tabindex="-1"
+          >
+            Buoy Ancol <span>𓆝 𓆟 𓆞 𓆝 𓆟</span>
+          </button>
+        </div>
+
+        <!-- PANEL CILINCING -->
+        <div
+          class="buoy-panel active"
+          id="panel-cilincing"
+          role="tabpanel"
+          aria-labelledby="tab-cilincing"
+        >
+          <div class="buoy-visual">
+            <img src="img/buoy cilincing.jpg" alt="Buoy Cilincing" />
+
+            <div class="buoy-label">
+              <span class="status-dot"></span>
+              MONITORING UNIT BUOY CILINCING
+            </div>
+          </div>
+
+          <div class="buoy-detail">
+            <p class="eyebrow">DEPLOYMENT AREA</p>
+            <h3>Titik Pemantauan Cilincing</h3>
+
+            <p>
+              Peta ini masih menunjukkan kawasan Cilincing secara umum.
+              Koordinat titik deployment perlu diperbarui setelah lokasi
+              pemasangan final dikonfirmasi.
+            </p>
+
+            <div
+              class="map-frame satellite-map"
+              id="map-cilincing"
+              data-lat="-6.105"
+              data-lng="106.945"
+              data-label="Area referensi Cilincing"
+            >
+              <div class="map-loading">Memuat peta satelit…</div>
+
+              <a
+                href="https://earth.google.com/web/search/Cilincing,+Jakarta+Utara"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Buka Google Earth ↗
+              </a>
+            </div>
+
+            <div class="spec-list">
+              <div>
+                <span class="spec-symbol">☼</span>
+                <div>
+                  <h4>Sistem daya mandiri</h4>
+                  <p>
+                    Empat panel surya 20 Wp (total 80 Wp) dan aki 12 V mendukung
+                    suplai energi untuk pengoperasian sistem.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <span class="spec-symbol">O₂</span>
+                <div>
+                  <h4>Sensor Dissolved Oxygen</h4>
+                  <p>
+                    Mengukur oksigen terlarut. Suhu dan saturasi dapat digunakan
+                    sebagai informasi pendukung jika tersedia pada keluaran
+                    sensor.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <span class="spec-symbol">Chl-a</span>
+                <div>
+                  <h4>Sensor Chlorophyll-a</h4>
+                  <p>
+                    Mengamati klorofil-a sebagai salah satu indikator
+                    produktivitas fitoplankton. Data perlu dibaca bersama
+                    parameter dan kondisi lingkungan lainnya.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL ANCOL -->
+        <div
+          class="buoy-panel"
+          id="panel-ancol"
+          role="tabpanel"
+          aria-labelledby="tab-ancol"
+          hidden
+        >
+          <div class="buoy-visual">
+            <img src="img/buoy ancol.jpg" alt="Buoy Ancol" />
+
+            <div class="buoy-label">
+              <span class="status-dot"></span>
+              MONITORING UNIT BUOY ANCOL
+            </div>
+          </div>
+
+          <div class="buoy-detail">
+            <p class="eyebrow">DEPLOYMENT AREA</p>
+            <h3>Titik Pemantauan Ancol</h3>
+
+            <p>
+              Peta ini masih menunjukkan kawasan Ancol secara umum. Koordinat
+              titik deployment perlu diperbarui setelah lokasi pemasangan final
+              dikonfirmasi.
+            </p>
+
+            <div
+              class="map-frame satellite-map"
+              id="map-ancol"
+              data-lat="-6.125"
+              data-lng="106.830"
+              data-label="Area referensi Ancol"
+            >
+              <div class="map-loading">Memuat peta satelit…</div>
+
+              <a
+                href="https://earth.google.com/web/search/Ancol,+Jakarta+Utara"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Buka Google Earth ↗
+              </a>
+            </div>
+
+            <div class="spec-list">
+              <div>
+                <span class="spec-symbol">☼</span>
+                <div>
+                  <h4>Sistem daya mandiri</h4>
+                  <p>
+                    Rancangan menggunakan panel surya 40 Wp dan aki 12 V.
+                    Pastikan spesifikasi sesuai dengan konfigurasi unit Ancol
+                    yang sebenarnya.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <span class="spec-symbol">O₂</span>
+                <div>
+                  <h4>Sensor Dissolved Oxygen</h4>
+                  <p>
+                    Data oksigen terlarut membantu menilai ketersediaan oksigen
+                    bagi organisme perairan. Suhu dan saturasi dapat menjadi
+                    data pendukung jika tersedia.
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <span class="spec-symbol">Chl-a</span>
+                <div>
+                  <h4>Sensor Chlorophyll-a</h4>
+                  <p>
+                    Data klorofil-a membantu mengamati perubahan indikator
+                    fitoplankton dan perlu diinterpretasikan berdasarkan lokasi
+                    serta waktu pengukuran.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS: DIPINDAHKAN KE ATAS MECHANICAL DESIGN -->
+      <section class="section system-section how-it-works">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow light">HOW IT WORKS</p>
+            <h2>Dari sensor menuju <span>informasi.</span></h2>
+          </div>
+
+          <p>
+            Data hasil pengukuran melewati beberapa tahap sebelum disajikan
+            menjadi informasi yang dapat dipahami melalui website.
+          </p>
+        </div>
+
+        <div class="system-flow">
+          <div>
+            <span>01</span>
+            <h3>Sensor</h3>
+            <p>Mengukur parameter perairan.</p>
+          </div>
+
+          <b aria-hidden="true">→</b>
+
+          <div>
+            <span>02</span>
+            <h3>Unit buoy</h3>
+            <p>Mengumpulkan dan meneruskan data.</p>
+          </div>
+
+          <b aria-hidden="true">→</b>
+
+          <div>
+            <span>03</span>
+            <h3>Server &amp; database</h3>
+            <p>Menyimpan data pengukuran.</p>
+          </div>
+
+          <b aria-hidden="true">→</b>
+
+          <div>
+            <span>04</span>
+            <h3>Website</h3>
+            <p>Menampilkan data agar mudah dipahami.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MECHANICAL DESIGN -->
+      <section class="section engineering-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MECHANICAL DESIGN</p>
+            <h2>Struktur yang siap <span>menghadapi laut.</span></h2>
+          </div>
+        </div>
+
+        <div class="engineering-grid">
+          <div class="design-placeholder">
+            <img
+              src="img/desain buoy cilincing.jpeg"
+              alt="Desain mekanik Monitoring Buoy Cilincing"
+              loading="lazy"
+            />
+          </div>
+
+          <div class="dimension-panel">
+            <p class="eyebrow">MECHANICAL SPECIFICATIONS</p>
+            <h3>Dimensi mekanik</h3>
+
+            <div class="dimension-row">
+              <span>Diameter buoy</span>
+              <b>65 cm</b>
+            </div>
+
+            <div class="dimension-row">
+              <span>Tinggi buoy</span>
+              <b>194.5 cm</b>
+            </div>
+
+            <div class="dimension-row">
+              <span>Diameter pemberat</span>
+              <b>5 inch</b>
+            </div>
+
+            <div class="dimension-row">
+              <span>Massa pemberat</span>
+              <b>4 kg</b>
+            </div>
+
+            <div class="dimension-row">
+              <span>Material utama</span>
+              <b>Resin dan Fiberglass</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="mechanical-notes">
+          <article>
+            <span>01</span>
+            <h3>Pelampung &amp; rangka</h3>
+            <p>
+              Menjaga daya apung, kestabilan, dan ruang pemasangan panel serta
+              sensor.
+            </p>
+          </article>
+
+          <article>
+            <span>02</span>
+            <h3>Pemberat &amp; tambatan</h3>
+            <p>
+              Membantu kestabilan posisi buoy. Konfigurasi final perlu
+              disesuaikan dengan kondisi lokasi pemasangan.
+            </p>
+          </article>
+
+          <article>
+            <span>03</span>
+            <h3>Pelindung sensor</h3>
+            <p>
+              Melindungi perangkat tanpa menghalangi sensor berinteraksi dengan
+              air.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- HARDWARE SPECIFICATIONS: ISI BERGANTI SESUAI BUOY -->
+      <section
+        class="section engineering-section electrical-section hardware-spec-section"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ELECTRICAL SYSTEM</p>
+            <h2>Daya, sensor, dan <span>telemetri.</span></h2>
+          </div>
+        </div>
+
+        <!-- SPECS BUOY CILINCING -->
+        <div class="hardware-panel active" id="hardware-cilincing">
+          <div class="hardware-summary">
+            <div>
+              <span class="hardware-summary-number">03</span><span>Sensor</span>
+            </div>
+            <div>
+              <span class="hardware-summary-number">80 Wp</span
+              ><span>Total daya panel surya</span>
+            </div>
+            <div>
+              <span class="hardware-summary-number">GSM/GPRS</span
+              ><span>Telemetri</span>
+            </div>
+          </div>
+
+          <div class="hardware-category-grid">
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">O₂</span>
+                <div>
+                  <span class="hardware-index">01 / SENSORS</span>
+                  <h3>Water Quality Sensors</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor DO RS485</h4>
+                  <p>
+                    Mengukur oksigen terlarut (DO). Komunikasi RS485 menggunakan
+                    protokol Modbus RTU; rentang ukur dan akurasi mengikuti
+                    model sensor.
+                  </p>
+                </div>
+                <b>2 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor CHL RS485</h4>
+                  <p>
+                    Mengukur konsentrasi klorofil-a melalui keluaran digital
+                    RS485. Rentang ukur dan akurasi mengikuti model sensor.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">⌘</span>
+                <div>
+                  <span class="hardware-index">02 / CONTROL</span>
+                  <h3>Control System</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>ESP32 DevKit</h4>
+                  <p>
+                    Mikrokontroler dengan CPU dual-core hingga 240 MHz, SRAM 520
+                    KB, Wi-Fi 2,4 GHz, Bluetooth, dan antarmuka UART.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul MAX485</h4>
+                  <p>
+                    Transceiver RS485 half-duplex untuk komunikasi serial antara
+                    sensor dan mikrokontroler. Tegangan IC nominal 5 V.
+                  </p>
+                </div>
+                <b>Jumlah sesuai konfigurasi</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>LM2596 Step-down</h4>
+                  <p>
+                    Konverter DC-DC buck dengan tegangan keluaran yang dapat
+                    diatur. Kemampuan arus bergantung pada modul dan kondisi
+                    kerja.
+                  </p>
+                </div>
+                <b>Jumlah sesuai konfigurasi</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">ᯤ</span>
+                <div>
+                  <span class="hardware-index">03 / TELEMETRY</span>
+                  <h3>Communication System</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul SIM800L</h4>
+                  <p>
+                    Modem GSM/GPRS quad-band 850/900/1800/1900 MHz dengan
+                    komunikasi UART untuk pengiriman data melalui jaringan
+                    seluler. Tegangan masukan mengikuti breakout yang digunakan.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Antena GSM magnetik</h4>
+                  <p>
+                    Antena seluler dengan rentang frekuensi produk 700–2700 MHz
+                    dan konektor sesuai perangkat.
+                  </p>
+                </div>
+                <b>Jumlah sesuai konfigurasi</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">☼</span>
+                <div>
+                  <span class="hardware-index">04 / POWER</span>
+                  <h3>Power System</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Panel surya</h4>
+                  <p>Empat panel dengan daya nominal 20 Wp per panel.</p>
+                </div>
+                <b>4 unit · 80 Wp</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Aki GS MF 32B20R</h4>
+                  <p>
+                    Aki timbal-asam maintenance-free dengan sistem nominal 12 V.
+                    Kapasitas Ah perlu diperiksa pada label atau datasheet.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Solar charge controller</h4>
+                  <p>
+                    Mengatur pengisian aki dari panel surya. Arus nominal dan
+                    tipe controller perlu disesuaikan dengan konfigurasi sistem.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- SPECS BUOY ANCOL -->
+        <div class="hardware-panel" id="hardware-ancol" hidden>
+          <div class="hardware-summary">
+            <div>
+              <span class="hardware-summary-number">04</span
+              ><span>Jenis sensor</span>
+            </div>
+            <div>
+              <span class="hardware-summary-number">80 Wp</span
+              ><span>Total daya panel surya</span>
+            </div>
+            <div>
+              <span class="hardware-summary-number">12 V</span
+              ><span>Sistem winch</span>
+            </div>
+          </div>
+
+          <div class="hardware-category-grid">
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">O₂</span>
+                <div>
+                  <span class="hardware-index">01 / SENSORS</span>
+                  <h3>Water Quality Sensors</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor DO RS485</h4>
+                  <p>
+                    Mengukur kadar oksigen terlarut (mg/L) dengan komunikasi
+                    Modbus RTU melalui RS485.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor CHL RS485</h4>
+                  <p>
+                    Mengukur konsentrasi klorofil-a dengan komunikasi digital
+                    RS485.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor pH RS485</h4>
+                  <p>
+                    Mengukur tingkat keasaman atau kebasaan air melalui
+                    komunikasi Modbus RTU dan RS485.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Sensor tekanan MS5837-30BA</h4>
+                  <p>
+                    Mengukur tekanan dan suhu; rentang tekanan hingga 30 bar.
+                    Kedalaman dapat diestimasi dengan kompensasi tekanan
+                    atmosfer dan densitas air.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">⌘</span>
+                <div>
+                  <span class="hardware-index">02 / CONTROL</span>
+                  <h3>Control &amp; RS485</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>ESP32 DevKit</h4>
+                  <p>
+                    Dua mikrokontroler: satu untuk akuisisi sensor dan satu
+                    untuk kendali winch serta komunikasi data.
+                  </p>
+                </div>
+                <b>2 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul MAX485</h4>
+                  <p>
+                    Transceiver RS485 half-duplex untuk komunikasi sensor dan
+                    jalur antarmikrokontroler.
+                  </p>
+                </div>
+                <b>3 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul LM2596 step-down</h4>
+                  <p>
+                    Konverter DC-DC buck untuk menyesuaikan tegangan suplai
+                    perangkat elektronik. Arus aktual bergantung pada modul,
+                    pendinginan, dan kondisi kerja.
+                  </p>
+                </div>
+                <b>2 unit</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">ᯤ</span>
+                <div>
+                  <span class="hardware-index">03 / TELEMETRY</span>
+                  <h3>Communication System</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul SIM800L</h4>
+                  <p>
+                    Modem GSM/GPRS quad-band 850/900/1800/1900 MHz dengan
+                    komunikasi UART untuk mengirimkan data ke server melalui
+                    jaringan seluler.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Antena GSM magnetik</h4>
+                  <p>
+                    Antena seluler dengan rentang frekuensi produk 700–2700 MHz
+                    dan konektor yang sesuai.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+
+            <article class="hardware-category">
+              <div class="hardware-category-title">
+                <span class="param-icon">☼</span>
+                <div>
+                  <span class="hardware-index">04 / POWER</span>
+                  <h3>Power System</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Panel surya</h4>
+                  <p>Empat panel dengan daya nominal 20 Wp per panel.</p>
+                </div>
+                <b>4 unit · 80 Wp</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Aki GS MF 32B20R</h4>
+                  <p>
+                    Aki timbal-asam maintenance-free dengan sistem nominal 12 V.
+                    Kapasitas Ah perlu diperiksa pada label atau datasheet.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Solar charge controller</h4>
+                  <p>
+                    Mengatur pengisian aki dari panel surya dan membantu
+                    mencegah pengisian berlebih sesuai fitur pengontrol.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+
+            <article class="hardware-category hardware-category-wide">
+              <div class="hardware-category-title">
+                <span class="param-icon">↕</span>
+                <div>
+                  <span class="hardware-index">05 / MECHANICAL CONTROL</span>
+                  <h3>Winch &amp; Motor Control</h3>
+                </div>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Winch elektrik DC 12 V</h4>
+                  <p>
+                    Digunakan untuk menaikkan dan menurunkan rangkaian sensor.
+                    Kapasitas tarikan nominal tercantum 2.000 lb (sekitar 907
+                    kgf); pastikan rating, beban kerja, dan duty cycle sesuai
+                    kebutuhan operasi.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Modul relay 2-channel</h4>
+                  <p>
+                    Dua kanal relay untuk mengendalikan rangkaian kontrol winch.
+                    Tegangan kontrol dan pemicu HIGH/LOW mengikuti spesifikasi
+                    modul.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+              <div class="hardware-item">
+                <div>
+                  <h4>Solenoid/contactor winch 4250X</h4>
+                  <p>
+                    Sakelar arus tinggi untuk sistem winch 12 V; produk yang
+                    dirujuk berlabel 250 A. Pastikan rating aktual sesuai motor,
+                    kabel, dan proteksi rangkaian.
+                  </p>
+                </div>
+                <b>1 unit</b>
+              </div>
+            </article>
+          </div>
+          <p class="small-note">
+            Spesifikasi tegangan, arus, rentang sensor, dan rating mekanis perlu
+            diverifikasi terhadap label atau datasheet komponen yang benar-benar
+            digunakan.
+          </p>
+        </div>
+
+        <div class="sensor-photo-gallery">
+          <article>
+            <img
+              src="img/sensor do.jpeg"
+              alt="Sensor dissolved oxygen"
+              loading="lazy"
+            />
+            <div>
+              <span>SENSOR 01</span>
+              <h3>Dissolved Oxygen (DO)</h3>
+            </div>
+          </article>
+          <article>
+            <img
+              src="img/sensor chl.jpeg"
+              alt="Sensor chlorophyll-a"
+              loading="lazy"
+            />
+            <div>
+              <span>SENSOR 02</span>
+              <h3>Chlorophyll-a</h3>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- MAINTENANCE PLAN -->
+      <section class="section maintenance-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MAINTENANCE PLAN</p>
+            <h2>Perawatan menjaga <span>data tetap andal.</span></h2>
+          </div>
+
+          <p>
+            Pemeriksaan berkala membantu menjaga kondisi struktur, sensor,
+            suplai daya, dan kualitas rekaman data buoy.
+          </p>
+        </div>
+
+        <div class="maintenance-grid">
+          <article>
+            <span>MECHANICAL</span>
+            <h3>Inspeksi struktur</h3>
+            <p>
+              Periksa korosi, retak, kebocoran, baut, tambatan, pemberat, dan
+              kondisi pelampung secara berkala.
+            </p>
+          </article>
+
+          <article>
+            <span>ELECTRICAL</span>
+            <h3>Periksa daya &amp; koneksi</h3>
+            <p>
+              Periksa panel, kabel, gland, SCC, tegangan aki, konektor, dan
+              perlindungan terhadap air.
+            </p>
+          </article>
+
+          <article>
+            <span>SENSOR</span>
+            <h3>Bersihkan &amp; kalibrasi</h3>
+            <p>
+              Bersihkan sensor sesuai manual pabrikan, periksa biofouling, dan
+              bandingkan hasilnya dengan pengukuran referensi.
+            </p>
+          </article>
+
+          <article>
+            <span>DATA</span>
+            <h3>Validasi rekaman</h3>
+            <p>
+              Periksa timestamp, nilai kosong, lonjakan tidak wajar, kualitas
+              sinyal, dan backup database.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-top">
+        <a class="brand footer-brand" href="index.html">
+          Monitoring<span>Buoy</span><i>.</i>
+        </a>
+
+        <p>Mengamati hari ini, menjaga laut untuk esok hari.</p>
+      </div>
+
+      <div class="footer-columns">
+        <div>
+          <h4>Hubungi kami</h4>
+          <a href="mailto:mitr-ipb@gmail.com">mitr-ipb@gmail.com</a>
+
+          <p>
+            MIT+R — Marine Instrumentation, Telemetry and Robotics<br />
+            IPB University, Bogor, Jawa Barat, Indonesia
+          </p>
+        </div>
+
+        <div>
+          <h4>Jelajahi</h4>
+          <a href="index.html">Home</a>
+          <a href="mission.html">Our Mission</a>
+          <a href="data.html">Monitoring Data</a>
+        </div>
+
+        <div>
+          <h4>Ikuti MIT+R IPB</h4>
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram ↗
+          </a>
+          <a
+            href="https://www.youtube.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            YouTube ↗
+          </a>
+          <a
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn ↗
+          </a>
+
+          <p class="small-note">
+            Tautan sosial dapat diganti dengan akun resmi MIT+R.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 MonitoringBuoy · MIT+R IPB University</span>
+        <span>Built for healthier coastal waters.</span>
+      </div>
+    </footer>
+
+    <!-- LEAFLET -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- TAB CILINCING & ANCOL -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".buoy-tab");
+        const panels = document.querySelectorAll(".buoy-panel");
+        const hardwarePanels = {
+          cilincing: document.getElementById("hardware-cilincing"),
+          ancol: document.getElementById("hardware-ancol"),
+        };
+        const hardwareIntro = document.getElementById("hardware-intro");
+
+        function activateBuoy(tab) {
+          if (!tab) return;
+          const buoyName = tab.dataset.buoy;
+          const targetPanel = document.getElementById("panel-" + buoyName);
+          if (!targetPanel) return;
+
+          tabs.forEach(function (item) {
+            const isActive = item === tab;
+            item.classList.toggle("active", isActive);
+            item.setAttribute("aria-selected", String(isActive));
+            item.tabIndex = isActive ? 0 : -1;
+          });
+
+          panels.forEach(function (panel) {
+            const isActive = panel === targetPanel;
+            panel.classList.toggle("active", isActive);
+            panel.hidden = !isActive;
+          });
+
+          Object.entries(hardwarePanels).forEach(function ([name, panel]) {
+            if (panel) panel.hidden = name !== buoyName;
+          });
+
+          if (hardwareIntro) {
+            hardwareIntro.textContent =
+              buoyName === "ancol"
+                ? "Buoy Ancol menggabungkan sensor kualitas air, pengukuran tekanan dan suhu, komunikasi seluler, serta sistem winch untuk menaikkan dan menurunkan rangkaian sensor."
+                : "Buoy Cilincing mengukur oksigen terlarut dan klorofil-a, lalu meneruskan data melalui ESP32 dan jaringan GSM/GPRS.";
+          }
+
+          requestAnimationFrame(function () {
+            targetPanel
+              .querySelectorAll(".satellite-map")
+              .forEach(function (container) {
+                if (container._leafletMap)
+                  container._leafletMap.invalidateSize();
+              });
+            window.dispatchEvent(new Event("resize"));
+          });
+        }
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            activateBuoy(tab);
+          });
+          tab.addEventListener("keydown", function (event) {
+            let nextTab = null;
+            if (event.key === "ArrowRight")
+              nextTab = tab.nextElementSibling || tabs[0];
+            else if (event.key === "ArrowLeft")
+              nextTab = tab.previousElementSibling || tabs[tabs.length - 1];
+            else if (event.key === "Home") nextTab = tabs[0];
+            else if (event.key === "End") nextTab = tabs[tabs.length - 1];
+            if (nextTab && nextTab.matches(".buoy-tab")) {
+              event.preventDefault();
+              activateBuoy(nextTab);
+              nextTab.focus();
+            }
+          });
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        const requestedBuoy = params.get("buoy");
+        const initialBuoy = requestedBuoy === "ancol" ? "ancol" : "cilincing";
+        const initialTab = document.querySelector(
+          '.buoy-tab[data-buoy="' + initialBuoy + '"]',
+        );
+        if (initialTab) activateBuoy(initialTab);
+      });
+    </script>
+
+    <!-- SCRIPT UTAMA WEBSITE -->
+    <script src="script.js"></script>
+  </body>
+</html>
